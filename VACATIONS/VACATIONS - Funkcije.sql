@@ -3,7 +3,7 @@ RETURNS @ListOfDates TABLE
 	(
 		 date_1			DATE
 		,day_name		NVARCHAR(MAX)
-		,day_in_week	INT
+		,day_in_week		INT
 		,weekend		INT
 		,holiday		INT
 		,work_day		INT
