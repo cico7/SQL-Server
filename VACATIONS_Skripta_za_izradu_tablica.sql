@@ -92,7 +92,7 @@ CREATE TABLE dbo.employments(
 	  ,employee_termination_date			DATE		
 	  ,created_at					DATETIME DEFAULT GETDATE()
 	)
-ALTER TABLE dbo.employments				ADD CONSTRAINT CHK_Employments_date_correct_order				CHECK (employee_hire_date <= COALESCE(employee_termination_date,'22220101'))
+ALTER TABLE dbo.employments				ADD CONSTRAINT CHK_Employments_date_correct_order	CHECK (employee_hire_date <= COALESCE(employee_termination_date,'22220101'))
 
 
 PRINT '7. leave_grounds table is created'
@@ -137,7 +137,7 @@ CREATE TABLE dbo.leaves_termins(
 	  ,leave_termin_description			NVARCHAR(MAX)	NULL
 	  ,created_at					DATETIME DEFAULT GETDATE()
 	)
-ALTER TABLE dbo.leaves_termins				ADD CONSTRAINT CHK_LeavesTermins_date_correct_order				CHECK (leave_termin_start_date <= COALESCE(leave_termin_end_date,'22220101'))
+ALTER TABLE dbo.leaves_termins				ADD CONSTRAINT CHK_LeavesTermins_date_correct_order	CHECK (leave_termin_start_date <= COALESCE(leave_termin_end_date,'22220101'))
 
 
 PRINT '11. dbo.employees_leaves_requests table is created'
@@ -167,7 +167,7 @@ CREATE TABLE dbo.employees_leaves(
 	  ,employee_leave_end_date			DATE
 	  ,created_at					DATETIME DEFAULT GETDATE()
 	)
-ALTER TABLE dbo.employees_leaves		ADD CONSTRAINT CHK_EmployeesLeaves_date_correct_order		CHECK (employee_leave_start_date <= COALESCE(employee_leave_end_date,'22220101'))
+ALTER TABLE dbo.employees_leaves		ADD CONSTRAINT CHK_EmployeesLeaves_date_correct_order	CHECK (employee_leave_start_date <= COALESCE(employee_leave_end_date,'22220101'))
 
 
 PRINT '13.  picking_groups table is created'
