@@ -86,7 +86,7 @@ CREATE TABLE dbo.departments(
 PRINT '6. employments table is created'
 CREATE TABLE dbo.employments(
 	   id						INT IDENTITY (1,1) PRIMARY KEY
-	  ,employee_id					INT	NOT NULL	CONSTRAINT FK_employments_employees			FOREIGN KEY REFERENCES dbo.employees(id)
+	  ,employee_id					INT	NOT NULL	CONSTRAINT FK_employments_employees		FOREIGN KEY REFERENCES dbo.employees(id)
 	  ,department_id				INT	NOT NULL	CONSTRAINT FK_employments_departments		FOREIGN KEY REFERENCES dbo.departments(id)
 	  ,employee_hire_date				DATE	NOT NULL
 	  ,employee_termination_date			DATE		
