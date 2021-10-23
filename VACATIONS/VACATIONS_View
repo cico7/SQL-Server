@@ -1,1 +1,42 @@
+--******************************************--
+--***************>> VIEWS <<****************--
+--******************************************--
 
+--1. V_employees_leave_days
+--SELECT * FROM [dbo].[V_employees_leave_days]
+--SELECT remaining_days FROM [dbo].[V_employees_leave_days]
+
+
+GO
+CREATE VIEW V_employees_leave_days AS
+SELECT 
+	 vacations.employee_id																                            AS employee_id
+	,vacations.leave_group_id															                            AS leave_group_id
+	,COALESCE(SUM(vacations.allocated_days),0)						                            AS allocated_days
+	,COALESCE(SUM(vacations.spent_days),0)								                            AS spent_days
+	,COALESCE(SUM(vacations.allocated_days),0)-COALESCE(SUM(vacations.spent_days),0)	AS remaining_days
+   FROM		(SELECT 
+				 e.id								                                                        AS employee_id
+				,lg.id								                                                      AS leave_group_id
+				,SUM(number_of_days)				                                                AS allocated_days
+				,NULL								                                                        AS spent_days
+			FROM dbo.employees						                                                AS e
+			LEFT JOIN dbo.employees_leave_rights	                                        AS elr	ON e.id					=	elr.employee_id
+			LEFT JOIN dbo.leave_groups				                                            AS lg	ON elr.leave_group_id	=	lg.id
+			GROUP BY e.id , lg.id
+			----------
+			UNION ALL
+			----------
+			SELECT 
+				 e.id																		                                    AS employee_id
+				,lg.id																		                                  AS leave_group_id
+				,NULL																		                                    AS allocated_days
+				,SUM(DATEDIFF(DAY,el.employee_leave_start_date,el.employee_leave_end_date))	AS spent_days
+			FROM dbo.employees																                            AS e
+			LEFT JOIN dbo.employees_leaves													                      AS el	ON e.id					=	el.employee_id
+			LEFT JOIN dbo.leave_groups														                        AS lg	ON el.leave_group_id	=	lg.id
+			GROUP BY e.id , lg.id)															                          AS vacations
+GROUP BY vacations.employee_id , vacations.leave_group_id 
+--HAVING vacations.employee_id=13 --Provjera samo za jednog zaposlenika
+--ORDER BY vacations.employee_id, vacations.leave_group_id
+GO
